@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security.oauth2 import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -10,6 +11,7 @@ from app.models import User
 import re
 
 router = APIRouter(prefix="/auth", tags=["AUTH"])
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/swagger') 
 
 
 @router.post("/sign-up", response_model=TokenResponse)
@@ -74,7 +76,7 @@ async def sign_up(  # type:ignore
 
 
 @router.post("/login", response_model=TokenResponse)
-async def login_end(
+async def login_end( # type:ignore
     data: LoginData, db: AsyncSession = Depends(get_async_db)
 ):  # type:ignore
     login_query = await db.execute(select(User).where(User.login == data.login))
@@ -93,6 +95,33 @@ async def login_end(
         )
 
     tokens = auth.create_tokens(data.login)
+
+    return {
+        "accessToken": tokens.get("accessToken"),
+        "refreshToken": tokens.get("refreshToken"),
+        "role": db_user.role,
+    }  # type:ignore
+
+@router.post("/swagger", response_model=TokenResponse)
+async def swagger_end( # type:ignore
+    data: OAuth2PasswordRequestForm=Depends(), db: AsyncSession = Depends(get_async_db)
+):  # type:ignore
+    login_query = await db.execute(select(User).where(User.login == data.username))
+    db_user = login_query.scalars().first()
+
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid credentials"
+        )
+
+    if not auth.verify_password(
+        plain_password=data.password, hashed_password=db_user.password
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid credentials"
+        )
+
+    tokens = auth.create_tokens(data.username)
 
     return {
         "accessToken": tokens.get("accessToken"),
