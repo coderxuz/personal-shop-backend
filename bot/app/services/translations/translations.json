@@ -1,0 +1,32 @@
+{
+  "en": {
+    "start": "Welcome! In this bot, you can find various products.\n First you need to sign-up or login on bot or login in web app",
+    "sign_up": "Sign up",
+    "change_lang":"Change lang",
+    "help":"help",
+    "login":"Login",
+    "change_lang_txt":"Please choose your language",
+    "language_changed":"Language successfully changed to english",
+    "about_seller":"about seller"
+  },
+  "uz": {
+    "start": "Xush kelibsiz! Bu botda siz har xil mahsulotlarni topishingiz mumkin.\n Avval siz botda ro'yxatdan o'tishingiz yoki tizimga kirishingiz kerak yoki veb-ilovada tizimga kirishingiz kerak",
+    "sign_up":"Ro'yxatdan o'tish",
+    "change_lang":"Tilni o'zgartirish",
+    "help":"Yordam",
+    "login":"Kirish",
+    "change_lang_txt":"Iltimos, tilni tanlang",
+    "language_changed":"Til muvaffaqiyatli ravishda o'zbek tiliga o'zgartirildi",
+    "about_seller":"Sotuvchi haqida"
+  },
+  "ru": {
+    "start": "Добро пожаловать! В этом боте вы можете найти различные продукты.\n Сначала вам нужно зарегистрироваться или войти в бот или войти в веб-приложение",
+    "sign_up":"Зарегистрироваться",
+    "change_lang":"Изменить язык",
+    "help":"Помощь",
+    "login":"Вход",
+    "change_lang_txt":"Пожалуйста, выберите язык",
+    "language_changed":"Язык успешно изменен на русский",
+    "about_seller":"О продавце"
+  }
+}
